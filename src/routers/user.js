@@ -81,13 +81,10 @@ router.patch('/users/me', auth, async (req, res) => {
   }
 
   try {
-    // const user = await User.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
-    // In order to get middleware running
-    // const user = await User.findById(req.params.id)
     updates.forEach(update => req.user[update] = req.body[update])
     await req.user.save()
 
-    res.send(user)
+    res.send(req.user)
   } catch (error) {
     if (error.name == 'ValidationError' || error.name == 'CastError') {
       return res.status(400).send()
